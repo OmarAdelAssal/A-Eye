@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products.apps.ProductsConfig',
     'rest_framework',
+    'customers',
+    
+
     
   #lwkdljd
     
@@ -127,7 +130,7 @@ USE_TZ = True
 
 
 
-AUTH_USER_MODEL = 'customers.Customer'
+# AUTH_USER_MODEL = 'customers.Customer'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
