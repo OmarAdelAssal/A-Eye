@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'products.apps.ProductsConfig',
+    'rest_framework',
+    # 'customer',
+
+    
 ]
 
 MIDDLEWARE = [
@@ -84,6 +88,8 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+
 
 
 
