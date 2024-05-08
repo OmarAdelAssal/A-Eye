@@ -7,5 +7,8 @@ router.register(r'', ProductViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    # retrive product alone based on id
+    path('<int:pk>/', ProductViewSet.as_view({'get': 'retrieve_product'}), name='product-detail'),
+    
     
 ]

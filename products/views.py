@@ -2,13 +2,17 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Category, Product
+from .models import Category, Product 
+# @action decorator to create a custom action named retrieve_product
+from rest_framework.decorators import action
 from .serializers import CategorySerializer, ProductSerializer
 
+# Class for Category model to create and retrive category
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+# class to create and retrive all products
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -51,8 +55,19 @@ class ProductViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    # @action decorator to create a custom action named retrieve_product
+    # The retrieve_product action is mapped to the GET method and is designed to retrieve a single product by its ID (pk).
+    @action(detail=True, methods=['get'])
+    def retrieve_product(self, request, pk=None):
+        try:
+            product = self.get_object()
+            serializer = self.get_serializer(product)
+            return Response(serializer.data)
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-
+# The following class is to return all products in specific category
 class ProductsInCategoryAPIView(APIView):
     def get(self, request, category_id):
         try:
