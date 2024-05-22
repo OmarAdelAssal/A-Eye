@@ -29,7 +29,5 @@ class OrderView(viewsets.ModelViewSet):
         product.quantity -= 1
         product.save()
         
-        # Save the order with the customer from the request
-        serializer.save(customer=self.request.user.customer)
 
 
