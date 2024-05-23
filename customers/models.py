@@ -39,6 +39,7 @@ class Customer(AbstractUser):
     gender = models.CharField(max_length=1,blank=True, choices=GENDER_CHOICES)
     birthdate = models.DateField(blank=True, null=True)
     address = models.TextField(blank=True)
+    image = models.ImageField(upload_to='Customers/',null=True, blank=True)
     date_joined = models.DateTimeField(default=timezone.now)
     username = None
     # login with email because if we don't do that django make login by username by default

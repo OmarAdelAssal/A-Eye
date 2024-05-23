@@ -13,6 +13,7 @@ class CustomerSerializer(serializers.ModelSerializer):
             "gender",
             "birthdate",
             "address",
+            "image",
             "date_joined",
         ]
         extra_kwargs = {"password": {"write_only": True}}
