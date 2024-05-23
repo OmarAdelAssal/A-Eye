@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'products.apps.ProductsConfig',
     'customers.apps.CustomersConfig',
-    'orders.apps.OrdersConfig'
+    'payment.apps.PaymentConfig',
+    'orders.apps.OrdersConfig',
     
 
 ]
