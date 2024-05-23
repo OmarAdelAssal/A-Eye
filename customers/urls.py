@@ -1,5 +1,5 @@
 from django.urls import path, include
-from customers.views import SignUpView, LoginView, LogoutView, CustomerView
+from customers.views import SignUpView, LoginView, LogoutView, CustomerView, UpdateCustomerView, DeleteCustomerView
 from rest_framework.routers import DefaultRouter
 from django.conf.urls.static import static
 from django.conf import settings
@@ -17,7 +17,9 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     # path("<int:pk>/", CustomerViewSetas_view({"get": "retrieve", "put": "update", "delete": "destroy"})),
     # path("<int:pk>/",include(router2.urls))
-    path("customer/", CustomerView.as_view())
+    path("customer/", CustomerView.as_view()),
+    path('update/<int:pk>/', UpdateCustomerView.as_view()),
+    path('delete/<int:pk>/', DeleteCustomerView.as_view()),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
 
