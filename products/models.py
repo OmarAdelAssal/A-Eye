@@ -5,6 +5,7 @@ from django.db import models
 # Class for Categories like chairs , Tables ,etc ....
 class Category(models.Model):
     categoryName = models.CharField(max_length=200,null=True ,blank=True)
+    categoryLogo = models.ImageField(upload_to='category logos/',null=True, blank=True)
 
     def __str__(self):
         return self.categoryName
