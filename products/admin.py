@@ -9,7 +9,7 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('categoryName',)
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'quantity', 'price', 'category')
+    list_display = ('name', 'quantity', 'price', 'product_image', 'category')
     list_filter = ('category',)
     search_fields = ('name',)
     raw_id_fields = ('category',)
