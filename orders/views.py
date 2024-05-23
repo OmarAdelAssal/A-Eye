@@ -27,9 +27,13 @@ class OrderView(viewsets.ModelViewSet):
         
         if product.quantity < quantity:
             raise ValidationError('Product is out of stock.')
+        
+        # Calculate the total cost
+        total_cost = product.price * quantity
 
         # Decrease the product quantity
         product.quantity -= quantity
         product.save()
+        serializer.save(total_cost=total_cost)
 
 
