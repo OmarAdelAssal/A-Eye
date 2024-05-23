@@ -3,6 +3,7 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Order
 from .serializers import OrderSerializer
 from rest_framework.response import Response
+from rest_framework.serializers import ValidationError
 
 # class IsCustomer(permissions.BasePermission):
 #     """
@@ -22,12 +23,13 @@ class OrderView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         product = serializer.validated_data['product']
-        if product.quantity < 1:
-            return Response({'detail': 'Product is out of stock.'}, status=status.HTTP_400_BAD_REQUEST)
+        quantity = serializer.validated_data['quantity']
         
+        if product.quantity < quantity:
+            raise ValidationError('Product is out of stock.')
+
         # Decrease the product quantity
-        product.quantity -= 1
+        product.quantity -= quantity
         product.save()
-        
 
 
