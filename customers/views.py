@@ -123,30 +123,3 @@ class LogoutView(APIView):
         response.data = {'message': 'successful'}
 
         return response
-'''
-
-# Create retrive , update , delete on Customer
-class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-    # Retrieve Customer by id
-    def retrieve(self, request, pk):
-            
-        customer = self.get_queryset().filter(id=pk).first()
-        serializer = self.serializer_class(customer)
-        return Response(serializer.data)
-        # Update Customer Data    
-    def update(self, request, pk):
-
-        customer = self.get_queryset().filter(id=pk).first()
-        serializer = self.serializer_class(customer, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # Delete Customer
-    def destroy(self, request, pk):
-        customer = self.get_queryset().filter(id=pk).first()
-        customer.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-'''
