@@ -2,6 +2,8 @@ from django.urls import path, include
 from cart.views import CartDetailAPIView, AddToCartAPIView, CartItemListAPIView, CartItemListCreateAPIView
 
 urlpatterns = [
+    '''
+
     path('', CartDetailAPIView.as_view(), name='cart-detail'),
     # Retrives all carts items to all users (NOT NECESSARY)
     path('cart-items/', CartItemListCreateAPIView.as_view(), name='cartitem-list-create'),
@@ -11,4 +13,5 @@ urlpatterns = [
     path('cart-items/<int:cart_id>/', CartItemListAPIView.as_view(), name='cart-item-list'),
     # to return all items with prices and total cost in specefic cart with its id (NEED TO CHANGE IT)
     path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
+    '''
 ]

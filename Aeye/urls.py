@@ -42,7 +42,5 @@ urlpatterns = [
     path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
     # retrurn all items in specefic cart using cart id and calculate total cost of all cart items
     path('cart-items/<int:cart_id>/', CartItemListAPIView.as_view(), name='cart-item-list'),
-    # to return all items with prices and total cost in specefic cart with its id (NEED TO CHANGE IT)
-    path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
