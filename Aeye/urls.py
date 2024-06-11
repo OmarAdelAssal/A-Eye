@@ -33,6 +33,7 @@ urlpatterns = [
     path('products/', include("products.urls")),
     path('categories/<int:category_id>/products/', ProductsInCategoryAPIView.as_view(), name='products_in_category'),
     path('categories/', include(router.urls)),
+    # Show the details of cart 
     path('cart/', CartDetailAPIView.as_view(), name='cart-detail'),
     # will comment next line and remove urls in cart.urls and put it all here
     # path('cart/', include('cart.urls')),

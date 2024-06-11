@@ -73,7 +73,7 @@ class CustomerView(APIView):
 class UpdateCustomerView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def put(self, request, pk):
+    def put(self, request):
         token = request.COOKIES.get('jwt')
 
         if not token:
@@ -97,7 +97,7 @@ class UpdateCustomerView(APIView):
 class DeleteCustomerView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request, pk):
+    def delete(self, request):
         token = request.COOKIES.get('jwt')
 
         if not token:
