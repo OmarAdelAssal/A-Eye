@@ -40,8 +40,9 @@ urlpatterns = [
     # add items to cart
     path('add-to-cart/', AddToCartAPIView.as_view(), name='add-to-cart'),
     # to return all items with prices and total cost in specefic cart with its id (NEED TO CHANGE IT)
-    path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
-    # retrurn all items in specefic cart using cart id and calculate total cost of all cart items
-    path('cart-items/<int:cart_id>/', CartItemListAPIView.as_view(), name='cart-item-list'),
+    # path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'), # old one 
+    # list all items of cart with the total price
+    path('cart/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
+
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

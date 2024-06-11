@@ -87,6 +87,7 @@ class AddToCartAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
+
 class CartItemListAPIView(generics.ListAPIView):
     serializer_class = CartItemSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -106,13 +107,10 @@ class CartItemListAPIView(generics.ListAPIView):
         # Get the customer based on the payload ID
         customer = get_object_or_404(Customer, id=payload['id'])
 
-        # Get the cart ID from the URL kwargs
-        cart_id = self.kwargs['cart_id']
+        # Get the cart associated with the logged-in customer
+        cart = get_object_or_404(Cart, customer=customer)
 
-        # Ensure the cart belongs to the logged-in customer
-        cart = get_object_or_404(Cart, id=cart_id, customer=customer)
-
-        # Filter CartItems by cart_id
+        # Filter CartItems by the retrieved cart
         queryset = CartItem.objects.filter(cart=cart)
         return queryset
 
