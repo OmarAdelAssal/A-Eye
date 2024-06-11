@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers
 from products.views import ProductsInCategoryAPIView, CategoryViewSet
+from cart.views import CartDetailAPIView, AddToCartAPIView, CartItemListAPIView, CartItemListCreateAPIView
+
 from django.conf.urls.static import static
 from django.conf import settings
 # from customers.views import SignUpView
@@ -31,7 +33,16 @@ urlpatterns = [
     path('products/', include("products.urls")),
     path('categories/<int:category_id>/products/', ProductsInCategoryAPIView.as_view(), name='products_in_category'),
     path('categories/', include(router.urls)),
-    path('cart/', include('cart.urls'))
-    # path('orders/', include("orders.urls")),
+    path('cart/', CartDetailAPIView.as_view(), name='cart-detail'),
+    # will comment next line and remove urls in cart.urls and put it all here
+    # path('cart/', include('cart.urls')),
+    # add items to cart
+    path('add-to-cart/', AddToCartAPIView.as_view(), name='add-to-cart'),
+    # to return all items with prices and total cost in specefic cart with its id (NEED TO CHANGE IT)
+    path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
+    # retrurn all items in specefic cart using cart id and calculate total cost of all cart items
+    path('cart-items/<int:cart_id>/', CartItemListAPIView.as_view(), name='cart-item-list'),
+    # to return all items with prices and total cost in specefic cart with its id (NEED TO CHANGE IT)
+    path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
