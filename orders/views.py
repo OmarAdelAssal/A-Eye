@@ -1,3 +1,5 @@
+'''
+
 from rest_framework import viewsets, permissions , status
 from rest_framework.authentication import TokenAuthentication
 from .models import Order
@@ -35,5 +37,4 @@ class OrderView(viewsets.ModelViewSet):
         product.quantity -= quantity
         product.save()
         serializer.save(total_cost=total_cost)
-
-
+'''

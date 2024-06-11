@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from customers.models import Customer
 from products.models import Product
+'''
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
@@ -23,3 +24,4 @@ class Order(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+'''
