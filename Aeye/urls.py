@@ -15,13 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from rest_framework import routers
 from products.views import ProductsInCategoryAPIView, CategoryViewSet
 from cart.views import CartDetailAPIView, AddToCartAPIView, CartItemListAPIView, CartItemListCreateAPIView
 
 from django.conf.urls.static import static
 from django.conf import settings
+
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 # from customers.views import SignUpView
 router = routers.DefaultRouter()
 router.register(r'', CategoryViewSet)
@@ -31,19 +34,22 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('customers/', include("customers.urls")),
     path('products/', include("products.urls")),
-    path('categories/<int:category_id>/products/', ProductsInCategoryAPIView.as_view(), name='products_in_category'),
+    path('categories/<int:category_id>/products/',
+        ProductsInCategoryAPIView.as_view(), name='products_in_category'),
     path('categories/', include(router.urls)),
     ######  Cart Endpoints  ######
-    # Show the details of cart 
+    # Show the details of cart
     path('cart/', CartDetailAPIView.as_view(), name='cart-detail'),
     # will comment next line and remove urls in cart.urls and put it all here
     # path('cart/', include('cart.urls')),
     # add items to cart
     path('add-to-cart/', AddToCartAPIView.as_view(), name='add-to-cart'),
     # to return all items with prices and total cost in specefic cart with its id (NEED TO CHANGE IT)
-    # path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'), # old one 
+    # path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'), # old one
     # list all items of cart with the total price
     path('cart/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
+    #### Api Documentation Urls ###
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/schema/docs/", SpectacularSwaggerView.as_view(url_name="schema")),
 
-
-]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

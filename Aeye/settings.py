@@ -81,19 +81,25 @@ WSGI_APPLICATION = 'Aeye.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+## Local Database
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "aeye",
+#         "USER": "fcai",
+#         "PASSWORD": "fcai",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     }
+# }
+
+import dj_database_url
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "aeye",
-        "USER": "fcai",
-        "PASSWORD": "fcai",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
+    "default": dj_database_url.parse(
+        "postgres://aeye_user:h06nbxWoYJ84skLMDTFUyJQ2ik2DKVfl@dpg-cpkroh4f7o1s73cv96e0-a.oregon-postgres.render.com/aeye"
+    )
 }
-
-
 
 
 
@@ -152,6 +158,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 REST_FRAMEWORK = {
     # for api auto documentation
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+
 }
 
 SPECTACULAR_SETTINGS = {

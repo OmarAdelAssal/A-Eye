@@ -17,7 +17,7 @@ class CartItemListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CartItemSerializer
 
 class CartDetailAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         token = request.COOKIES.get('jwt')
@@ -90,7 +90,7 @@ class AddToCartAPIView(APIView):
 
 class CartItemListAPIView(generics.ListAPIView):
     serializer_class = CartItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         # Get the JWT token from the cookies

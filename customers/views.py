@@ -10,10 +10,6 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 
 class SignUpView(viewsets.ModelViewSet):
-    """
-    Create a new Customer.
-    """
-
     queryset = Customer.objects.none()
     serializer_class = CustomerSerializer
 
@@ -29,10 +25,8 @@ class LoginView(APIView):
         password = request.data['password']
 
         customer = Customer.objects.filter(email=email).first()
-
         if customer is None:
             raise AuthenticationFailed('Customer not found')
-            
         if not customer.check_password(password):
             raise AuthenticationFailed('Invalid password')
 
@@ -45,18 +39,17 @@ class LoginView(APIView):
 
         token = jwt.encode(payload, 'secret', algorithm='HS256')
 
-        response = Response() 
+        response = Response()
         response.set_cookie(key='jwt', value=token, httponly=True)
-        response.data = {'jwt token': token}
+        response.data = {'jwt': token}
 
         return response
 
 class CustomerView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         token = request.COOKIES.get('jwt')
-
         if not token:
             raise AuthenticationFailed("Unauthenticated!")
         
@@ -64,21 +57,19 @@ class CustomerView(APIView):
             payload = jwt.decode(token, 'secret', algorithms=["HS256"])
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Unauthenticated!")
-        
+
         customer = Customer.objects.filter(id=payload['id']).first()
         serializer = CustomerSerializer(customer)
-
         return Response(serializer.data)
 
 class UpdateCustomerView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def put(self, request):
         token = request.COOKIES.get('jwt')
-
         if not token:
             raise AuthenticationFailed("Unauthenticated!")
-
+        
         try:
             payload = jwt.decode(token, 'secret', algorithms=["HS256"])
         except jwt.ExpiredSignatureError:
@@ -91,18 +82,16 @@ class UpdateCustomerView(APIView):
         serializer = CustomerSerializer(customer, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class DeleteCustomerView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def delete(self, request):
         token = request.COOKIES.get('jwt')
-
         if not token:
             raise AuthenticationFailed("Unauthenticated!")
-
+        
         try:
             payload = jwt.decode(token, 'secret', algorithms=["HS256"])
         except jwt.ExpiredSignatureError:
@@ -113,7 +102,6 @@ class DeleteCustomerView(APIView):
             return Response({'error': 'Customer not found'}, status=status.HTTP_404_NOT_FOUND)
 
         customer.delete()
-
         return Response({'message': 'Customer deleted successfully'}, status=status.HTTP_200_OK)
 
 class LogoutView(APIView):
@@ -121,5 +109,6 @@ class LogoutView(APIView):
         response = Response()
         response.delete_cookie('jwt')
         response.data = {'message': 'successful'}
-
         return response
+
+
