@@ -47,31 +47,7 @@ class LoginView(APIView):
         response.data = {'jwt': token}
 
         return response
-# class LoginView(APIView):
-#     def post(self, request):
-#         email = request.data['email']
-#         password = request.data['password']
 
-#         customer = Customer.objects.filter(email=email).first()
-#         if customer is None:
-#             raise AuthenticationFailed('Customer not found')
-#         if not customer.check_password(password):
-#             raise AuthenticationFailed('Invalid password')
-
-#         payload = {
-#             "id": customer.id,
-#             "email": customer.email,
-#             "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-#             "iat": datetime.datetime.utcnow()
-#         }
-
-#         token = jwt.encode(payload, 'secret', algorithm='HS256')
-
-#         response = Response()
-#         response.set_cookie(key='jwt', value=token, httponly=True)
-#         response.data = {'jwt': token}
-
-#         return response
 
 class CustomerView(APIView):
     # permission_classes = [IsAuthenticated]
