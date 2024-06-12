@@ -18,11 +18,14 @@ class SignUpView(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+    
 class LoginView(APIView):
     def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        if email is None or password is None:
+            return Response({'error': 'Email and password are required'}, status=status.HTTP_400_BAD_REQUEST)
 
         customer = Customer.objects.filter(email=email).first()
         if customer is None:
@@ -44,6 +47,31 @@ class LoginView(APIView):
         response.data = {'jwt': token}
 
         return response
+# class LoginView(APIView):
+#     def post(self, request):
+#         email = request.data['email']
+#         password = request.data['password']
+
+#         customer = Customer.objects.filter(email=email).first()
+#         if customer is None:
+#             raise AuthenticationFailed('Customer not found')
+#         if not customer.check_password(password):
+#             raise AuthenticationFailed('Invalid password')
+
+#         payload = {
+#             "id": customer.id,
+#             "email": customer.email,
+#             "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+#             "iat": datetime.datetime.utcnow()
+#         }
+
+#         token = jwt.encode(payload, 'secret', algorithm='HS256')
+
+#         response = Response()
+#         response.set_cookie(key='jwt', value=token, httponly=True)
+#         response.data = {'jwt': token}
+
+#         return response
 
 class CustomerView(APIView):
     # permission_classes = [IsAuthenticated]
