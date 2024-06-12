@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_spectacular',  # for api auto documentation
     'products.apps.ProductsConfig',
     'customers.apps.CustomersConfig',
     'payment.apps.PaymentConfig',
@@ -146,3 +147,16 @@ MEDIA_URL = "/media/"
 import os
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+REST_FRAMEWORK = {
+    # for api auto documentation
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Aeye",
+    "DESCRIPTION": "Aeye Endpoints",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
