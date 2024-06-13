@@ -51,6 +51,6 @@ urlpatterns = [
     #### Api Documentation Urls ###
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/schema/docs/", SpectacularSwaggerView.as_view(url_name="schema")),
-    path("api/schema/docs222/", SpectacularSwaggerView.as_view(url_name="schema")),
+    path("api/schema/docs2222/", SpectacularSwaggerView.as_view(url_name="schema")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
