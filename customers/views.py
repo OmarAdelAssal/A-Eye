@@ -8,7 +8,7 @@ import jwt, datetime
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
-from jwt import encode
+
 class SignUpView(viewsets.ModelViewSet):
     queryset = Customer.objects.none()
     serializer_class = CustomerSerializer
@@ -40,7 +40,7 @@ class LoginView(APIView):
             "iat": datetime.datetime.utcnow()
         }
 
-        token = encode(payload, 'secret', algorithm='HS256')
+        token = jwt.encode(payload, 'secret', algorithm='HS256')
 
         response = Response()
         response.set_cookie(key='jwt', value=token, httponly=True)
