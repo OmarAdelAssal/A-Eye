@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'payment.apps.PaymentConfig',
     'orders.apps.OrdersConfig',
     'cart.apps.CartConfig',
-    
+    'django_filters',
 
 ]
 
