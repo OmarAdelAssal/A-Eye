@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from products.views import ProductsInCategoryAPIView, CategoryViewSet
-from cart.views import CartDetailAPIView, AddToCartAPIView, CartItemListAPIView, CartItemListCreateAPIView
+from cart.views import CartDetailAPIView, AddToCartAPIView, CartItemListAPIView, CartItemListCreateAPIView, RemoveFromCartAPIView, ClearCartAPIView
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -46,6 +46,10 @@ urlpatterns = [
     path('add-to-cart/', AddToCartAPIView.as_view(), name='add-to-cart'),
     # to return all items with prices and total cost in specefic cart with its id (NEED TO CHANGE IT)
     # path('cart/<int:cart_id>/items/', CartItemListAPIView.as_view(), name='cart-item-list'), # old one
+    # the following api to remove product from cart 
+    path('remove-from-cart/<int:product_id>/', RemoveFromCartAPIView.as_view(), name='remove-from-cart'),
+    # Api to remove all items from cart
+    path('cart/clear/', ClearCartAPIView.as_view(), name='clear-cart'),
     # list all items of cart with the total price
     path('cart/items/', CartItemListAPIView.as_view(), name='cart-item-list'),
     #### Api Documentation Urls ###

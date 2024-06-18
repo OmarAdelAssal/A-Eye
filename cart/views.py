@@ -86,7 +86,66 @@ class AddToCartAPIView(APIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class RemoveFromCartAPIView(APIView):
+    def delete(self, request, product_id):
+        # Get the JWT token from the cookies
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise AuthenticationFailed("Unauthenticated!")
 
+        try:
+            # Decode the token to get the user ID
+            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated!")
+
+        # Get the customer based on the payload ID
+        customer = get_object_or_404(Customer, id=payload['id'])
+
+        # Get the cart associated with the customer
+        cart = get_object_or_404(Cart, customer=customer)
+
+        # Get the cart item to be removed
+        cart_item = get_object_or_404(CartItem, cart=cart, product_id=product_id)
+
+        # Restore the product quantity
+        product = cart_item.product
+        product.quantity += cart_item.quantity
+        product.save()
+
+        # Delete the cart item
+        cart_item.delete()
+
+        return Response({'status': 'Item removed from cart'}, status=status.HTTP_200_OK)
+
+class ClearCartAPIView(APIView):
+    def delete(self, request):
+        # Get the JWT token from the cookies
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise AuthenticationFailed("Unauthenticated!")
+
+        try:
+            # Decode the token to get the user ID
+            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated!")
+
+        # Get the customer based on the payload ID
+        customer = get_object_or_404(Customer, id=payload['id'])
+
+        # Get the cart associated with the customer
+        cart = get_object_or_404(Cart, customer=customer)
+
+        # Get all cart items and restore the product quantities
+        cart_items = CartItem.objects.filter(cart=cart)
+        for cart_item in cart_items:
+            product = cart_item.product
+            product.quantity += cart_item.quantity
+            product.save()
+            cart_item.delete()
+
+        return Response({'status': 'Cart cleared'}, status=status.HTTP_200_OK)
 
 class CartItemListAPIView(generics.ListAPIView):
     serializer_class = CartItemSerializer
