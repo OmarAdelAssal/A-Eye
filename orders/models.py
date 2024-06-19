@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from customers.models import Customer
 from products.models import Product
+from cart.models import Cart,CartItem
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
