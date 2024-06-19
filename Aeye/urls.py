@@ -37,6 +37,7 @@ urlpatterns = [
     path('orders/', include("orders.urls")),
     path('categories/<int:category_id>/products/',
         ProductsInCategoryAPIView.as_view(), name='products_in_category'),
+    # Categories Endpoints
     path('categories/', include(router.urls)),
     ######  Cart Endpoints  ######
     # Show the details of cart
