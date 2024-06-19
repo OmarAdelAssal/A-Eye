@@ -1,11 +1,15 @@
-'''
-
 from rest_framework import serializers
+from .models import Order, OrderItem
 
-from .models import Order
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True)
+    customer_email = serializers.ReadOnlyField(source='customer.email')
+
     class Meta:
         model = Order
-        fields = ['order_id', 'customer', 'product', 'payment_id', 'order_date', 'total_cost', 'quantity', 'created_at', 'updated_at']
-'''
+        fields = '__all__'
