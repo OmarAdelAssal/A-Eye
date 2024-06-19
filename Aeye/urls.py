@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from products.views import ProductsInCategoryAPIView, CategoryViewSet
+from products.views import ProductsInCategoryAPIView, CategoryViewSet ,ProductViewSet
 from cart.views import CartDetailAPIView, AddToCartAPIView, CartItemListAPIView, CartItemListCreateAPIView, RemoveFromCartAPIView, ClearCartAPIView
 
 from django.conf.urls.static import static
@@ -37,6 +37,8 @@ urlpatterns = [
     path('orders/', include("orders.urls")),
     path('categories/<int:category_id>/products/',
         ProductsInCategoryAPIView.as_view(), name='products_in_category'),
+    path('products/search/', ProductViewSet.as_view({'get': 'search'}), name='product-search'),
+
     path('categories/', include(router.urls)),
     ######  Cart Endpoints  ######
     # Show the details of cart

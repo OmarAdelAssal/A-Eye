@@ -59,6 +59,18 @@ class ProductViewSet(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+    @action(detail=False, methods=['get'])  # Use detail=False for list endpoint
+    def search(self, request):
+        search_query = request.query_params.get('search_query', '')
+        if search_query:
+            products = self.queryset.filter(name__icontains=search_query)
+        else:
+            products = self.queryset.all()
+
+        serializer = self.get_serializer(products, many=True)
+        return Response(serializer.data)
+
+    
     # @action decorator to create a custom action named retrieve_product
     # The retrieve_product action is mapped to the GET method and is designed to retrieve a single product by its ID (pk).
     @action(detail=True, methods=['get'])
@@ -69,6 +81,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         except Product.DoesNotExist:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        
 
 # The following class is to return all products in specific category
 class ProductsInCategoryAPIView(APIView):
