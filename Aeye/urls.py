@@ -34,6 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('customers/', include("customers.urls")),
     path('products/', include("products.urls")),
+    path('orders/', include("orders.urls")),
     path('categories/<int:category_id>/products/',
         ProductsInCategoryAPIView.as_view(), name='products_in_category'),
     path('categories/', include(router.urls)),
