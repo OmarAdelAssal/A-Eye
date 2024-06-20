@@ -60,16 +60,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     @action(detail=False, methods=['get'])  # Use detail=False for list endpoint
-    def search(self, request):
-        search_query = request.query_params.get('search_query', '')
+    def search(self, request, search_query=None):
         if search_query:
-            products = self.queryset.filter(name__icontains=search_query)
+            products = Product.objects.filter(name__icontains=search_query)
         else:
-            products = self.queryset.all()
-
-        serializer = self.get_serializer(products, many=True)
+            products = Product.objects.all()
+        
+        serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
-
     
     # @action decorator to create a custom action named retrieve_product
     # The retrieve_product action is mapped to the GET method and is designed to retrieve a single product by its ID (pk).
