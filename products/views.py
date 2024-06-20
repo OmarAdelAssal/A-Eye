@@ -83,11 +83,12 @@ class ProductViewSet(viewsets.ModelViewSet):
         
 
 # The following class is to return all products in specific category
+
 class ProductsInCategoryAPIView(APIView):
     def get(self, request, category_id):
         try:
             products = Product.objects.filter(category__id=category_id)
-            serializer = ProductSerializer(products, many=True)
+            serializer = ProductSerializer(products, many=True, context={'request': request})
             return Response(serializer.data)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
