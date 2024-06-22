@@ -88,3 +88,44 @@ class OrderHistoryAPIView(APIView):
         # Serialize the orders
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
+    
+    '''
+    class CheckoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise AuthenticationFailed("Unauthenticated!")
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated!")
+
+        customer = Customer.objects.get(id=payload['id'])
+        cart = Cart.objects.get(customer=customer)
+        cart_items = CartItem.objects.filter(cart=cart)
+        if not cart_items.exists():
+            return Response({"error": "Cart is empty"}, status=status.HTTP_400_BAD_REQUEST)
+
+        total_cost = sum(item.product.price * item.quantity for item in cart_items)
+        order = Order.objects.create(customer=customer, total_cost=total_cost)
+
+        for item in cart_items:
+            OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity, price=item.product.price)
+
+        cart_items.delete()
+
+        payment_data = {
+            'customer': customer.id,
+            'order': order.id,
+            'payment_method': request.data.get('payment_method', 'COD'),
+            'amount': total_cost,
+        }
+        payment_serializer = PaymentSerializer(data=payment_data)
+        if payment_serializer.is_valid():
+            payment_serializer.save()
+
+        return Response({"message": "Order placed and payment recorded successfully"}, status=status.HTTP_201_CREATED)
+    '''
